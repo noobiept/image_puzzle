@@ -1,6 +1,6 @@
 (function(window)
 {
-function Position( trueColumn, trueLine )
+function Position( imageInfo, trueColumn, trueLine )
 {
 var _this = this;
 
@@ -9,20 +9,19 @@ this.trueLine = trueLine;
 this.currentColumn = trueColumn;
 this.currentLine = trueLine;
 
-var image = new createjs.Bitmap( G.PRELOAD.getResult( 'image1_' + trueColumn + '_' + trueLine ) );
+var image = new createjs.Bitmap( G.PRELOAD.getResult( imageInfo.id + trueColumn + trueLine ) );
 
-image.x = trueColumn * Position.width;
-image.y = trueLine * Position.height;
+image.x = trueColumn * imageInfo.tileWidth;
+image.y = trueLine * imageInfo.tileHeight;
 
 image.on( 'click', function() { selectPosition( _this ) } );
 
+this.tileWidth = imageInfo.tileWidth;
+this.tileHeight = imageInfo.tileHeight;
 this.image = image;
 
 G.STAGE.addChild( image );
 }
-
-Position.width = 250;
-Position.height = 126;
 
 
 Position.prototype.moveTo = function( column, line )
@@ -30,8 +29,8 @@ Position.prototype.moveTo = function( column, line )
 this.currentColumn = column;
 this.currentLine = line;
 
-this.image.x = column * Position.width;
-this.image.y = line * Position.height;
+this.image.x = column * this.tileWidth;
+this.image.y = line * this.tileHeight;
 };
 
 
@@ -45,7 +44,6 @@ if ( this.currentColumn === this.trueColumn &&
 
 return false;
 };
-
 
 
 window.Position = Position;
