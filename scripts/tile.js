@@ -1,6 +1,4 @@
-(function(window)
-{
-function Position( imageInfo, trueColumn, trueLine )
+function Tile( imageInfo, container, trueColumn, trueLine )
 {
 var _this = this;
 
@@ -9,22 +7,23 @@ this.trueLine = trueLine;
 this.currentColumn = trueColumn;
 this.currentLine = trueLine;
 
-var image = new createjs.Bitmap( G.PRELOAD.getResult( imageInfo.id + trueColumn + trueLine ) );
+var image = new createjs.Bitmap( Main.getImage( imageInfo.id + trueColumn + trueLine ) );
 
 image.x = trueColumn * imageInfo.tileWidth;
 image.y = trueLine * imageInfo.tileHeight;
 
-image.on( 'click', function() { selectPosition( _this ) } );
+image.on( 'click', function() { Main.selectTile( _this ) } );
 
 this.tileWidth = imageInfo.tileWidth;
 this.tileHeight = imageInfo.tileHeight;
 this.image = image;
+this.container = container;
 
-G.STAGE.addChild( image );
+container.addChild( image );
 }
 
 
-Position.prototype.moveTo = function( column, line )
+Tile.prototype.moveTo = function( column, line )
 {
 this.currentColumn = column;
 this.currentLine = line;
@@ -34,7 +33,7 @@ this.image.y = line * this.tileHeight;
 };
 
 
-Position.prototype.match = function()
+Tile.prototype.match = function()
 {
 if ( this.currentColumn === this.trueColumn &&
      this.currentLine === this.trueLine )
@@ -46,12 +45,9 @@ return false;
 };
 
 
-Position.prototype.clear = function()
+Tile.prototype.clear = function()
 {
-G.STAGE.removeChild( this.image );
+this.container.removeChild( this.image );
+this.container = null;
+this.image = null;
 };
-
-
-window.Position = Position;
-
-}(window));
