@@ -4,6 +4,7 @@ var G = {
         STAGE: null,
         POSITIONS: [],
         SELECTED: null,
+        IMAGES_LEFT: [],
         IMAGES_INFO: [
             { id: 'beta_is_over', columns: 8, lines: 2, tileWidth: 169, tileHeight: 192 },
             { id: 'mirana', columns: 8, lines: 2, tileWidth: 200, tileHeight: 285 },
@@ -74,6 +75,8 @@ var manifest = [
         { id: 'snow71', src: 'images/snow/snow_16.png' }
     ];
 
+createjs.Ticker.on( 'tick', tick );
+
 G.PRELOAD.addEventListener( 'complete', start );
 G.PRELOAD.loadManifest( manifest, true );
 };
@@ -81,8 +84,18 @@ G.PRELOAD.loadManifest( manifest, true );
 
 function start()
 {
-var random = Math.floor( Math.random() * (G.IMAGES_INFO.length - 1) );
-var imageInfo = G.IMAGES_INFO[ random ];
+clear();
+
+if ( G.IMAGES_LEFT.length === 0 )
+    {
+    for (var a = 0 ; a < G.IMAGES_INFO.length ; a++)
+        {
+        G.IMAGES_LEFT.push( G.IMAGES_INFO[ a ] );
+        }
+    }
+
+var random = Math.floor( Math.random() * G.IMAGES_LEFT.length );
+var imageInfo = G.IMAGES_LEFT.splice( random, 1 )[ 0 ];
 
 G.CURRENT_IMAGE_INFO = imageInfo;
 
@@ -106,10 +119,31 @@ for (var column = 0 ; column < columns ; column++)
     }
 
 shufflePositions();
-
-
-createjs.Ticker.on( 'tick', tick );
 }
+
+
+function clear()
+{
+G.SELECTED = null;
+G.CURRENT_IMAGE_INFO = null;
+
+if ( G.POSITIONS.length > 0 )
+    {
+    var columns = G.POSITIONS.length;
+    var lines = G.POSITIONS[ 0 ].length;
+
+    for (var column = 0 ; column < columns ; column++)
+        {
+        for (var line = 0 ; line < lines ; line++)
+            {
+            G.POSITIONS[ column ][ line ].clear();
+            }
+        }
+
+    G.POSITIONS.length = 0;
+    }
+}
+
 
 
 function shufflePositions()
@@ -173,7 +207,7 @@ else
             {
             G.STAGE.update();
             window.alert( 'you won!' );
-            shufflePositions();
+            start();
             }
 
         G.SELECTED = null;

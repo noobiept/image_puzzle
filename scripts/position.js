@@ -46,6 +46,12 @@ return false;
 };
 
 
+Position.prototype.clear = function()
+{
+G.STAGE.removeChild( this.image );
+};
+
+
 window.Position = Position;
 
 }(window));
