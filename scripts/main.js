@@ -212,17 +212,13 @@ Main.selectTile = function( tile )
 {
 if ( SELECTED === null )
     {
-    SELECTED = tile;
+    selectTile( tile );
     }
 
 else
     {
-    if ( SELECTED == tile )
-        {
-        SELECTED = null;
-        }
-
-    else
+        // switch their position
+    if ( SELECTED !== tile )
         {
         var selectedColumn = SELECTED.currentColumn;
         var selectedLine = SELECTED.currentLine;
@@ -232,15 +228,41 @@ else
 
         if ( isImageCorrect() )
             {
+            unSelectSelectedTile();
             STAGE.update();
             window.alert( 'you won!' );
-            start();
-            }
 
-        SELECTED = null;
+            start();
+            return;
+            }
         }
+
+    unSelectSelectedTile();
     }
 };
+
+
+/**
+ * Select a tile.
+ */
+function selectTile( tile )
+{
+SELECTED = tile;
+SELECTED.select();
+}
+
+
+/**
+ * Un-select a tile.
+ */
+function unSelectSelectedTile()
+{
+if ( SELECTED )
+    {
+    SELECTED.unSelect();
+    SELECTED = null;
+    }
+}
 
 
 /**
