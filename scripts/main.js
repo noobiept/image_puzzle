@@ -88,7 +88,26 @@ var manifest = [
 
 createjs.Ticker.on( 'tick', tick );
 
-PRELOAD.addEventListener( 'complete', start );
+
+var loading = new createjs.Text( 'Loading..', '30px monospace' );
+
+loading.textAlign = 'center';
+loading.textBaseline = 'middle';
+loading.x = CANVAS.width / 2;
+loading.y = CANVAS.height / 2;
+
+STAGE.addChild( loading );
+
+PRELOAD.addEventListener( 'progress', function( event )
+    {
+    loading.text = 'Loading.. ' + Math.round( event.progress * 100 ) + '%';
+    });
+PRELOAD.addEventListener( 'complete', function()
+    {
+    STAGE.removeChild( loading );
+
+    start();
+    });
 PRELOAD.loadManifest( manifest, true );
 };
 
@@ -230,7 +249,16 @@ else
             {
             unSelectSelectedTile();
             STAGE.update();
-            window.alert( 'you won!' );
+
+            var message = 'You Won!';
+
+            if ( IMAGES_LEFT.length === 0 )
+                {
+                message += "\nYou've been through all the images.\nRestarting...";
+                }
+
+            window.alert( message );
+
 
             start();
             return;
