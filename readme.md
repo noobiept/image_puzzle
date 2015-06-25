@@ -8,5 +8,5 @@ Libraries
 =========
 
 - createjs
-    - easeljs -- 0.7
-    - preloadjs -- 0.4
+    - easeljs -- 0.8
+    - preloadjs -- 0.6
