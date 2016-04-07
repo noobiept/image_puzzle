@@ -91,6 +91,15 @@ this.isSelected = false;
 
 
 /**
+ * Highlight a tile (for example when helping the player solving the puzzle).
+ */
+Tile.prototype.highlight = function()
+{
+this.setBorderColor( 'yellow' );
+};
+
+
+/**
  * Show an effect when the mouse is over this element.
  */
 Tile.prototype.mouseOver = function()

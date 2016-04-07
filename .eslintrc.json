@@ -6,7 +6,7 @@
     "rules": {
         "linebreak-style": [ "error", "windows" ],
         "semi": [ "error", "always" ],
-        "no-unused-vars": [ "error", { "args": "none" } ],
+        "no-unused-vars": [ "off" ],
         "consistent-return": [ "error" ],
         "curly": [ "error" ],
         "eqeqeq": [ "error" ],

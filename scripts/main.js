@@ -110,10 +110,29 @@ PRELOAD.addEventListener( 'complete', function()
     {
     STAGE.removeChild( loading );
 
+    initMenu();
     start();
     });
 PRELOAD.loadManifest( manifest, true );
 };
+
+
+/**
+ * Initialize the menu elements.
+ */
+function initMenu()
+{
+var help = document.getElementById( 'Help' );
+help.onclick = helpPlayer;
+$( help ).removeClass( 'hidden' ).button();
+
+var donate = document.getElementById( 'Donate' );
+donate.onclick = function()
+    {
+    window.open( 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UQ6ZF2JKUC626', '_blank' );
+    };
+$( donate ).removeClass( 'hidden' ).button();
+}
 
 
 /**
