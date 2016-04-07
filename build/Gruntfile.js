@@ -1,3 +1,6 @@
+/*global module*/
+'use strict';
+
 module.exports = function( grunt )
 {
 var root = '../';

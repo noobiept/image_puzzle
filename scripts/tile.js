@@ -14,23 +14,12 @@ this.currentLine = trueLine;
 var image = new createjs.Bitmap( Main.getImage( imageInfo.id + trueColumn + trueLine ) );
 
 image.on( 'click', function() { Main.selectTile( _this ); } );
-
+image.on( 'mouseover', this.mouseOver, this );
+image.on( 'mouseout', this.mouseOut, this );
 
     // the selected border
 var border = new createjs.Shape();
-
 border.visible = false;
-
-var thickness = 4;
-var halfThickness = thickness / 2;
-
-var g = border.graphics;
-
-g.beginStroke( 'red' );
-g.setStrokeStyle( thickness );
-g.drawRect( halfThickness, halfThickness, imageInfo.tileWidth - thickness, imageInfo.tileHeight - thickness );
-g.endStroke();
-
 
     // container
 var container = new createjs.Container();
@@ -41,12 +30,13 @@ container.y = trueLine * imageInfo.tileHeight;
 container.addChild( image );
 container.addChild( border );
 
-
 this.tileWidth = imageInfo.tileWidth;
 this.tileHeight = imageInfo.tileHeight;
 this.container = container;
+this.image = image;
 this.parent = parent;
 this.border = border;
+this.isSelected = false;
 
 parent.addChild( container );
 }
@@ -85,7 +75,8 @@ return false;
  */
 Tile.prototype.select = function()
 {
-this.border.visible = true;
+this.setBorderColor( 'red' );
+this.isSelected = true;
 };
 
 
@@ -95,6 +86,56 @@ this.border.visible = true;
 Tile.prototype.unSelect = function()
 {
 this.border.visible = false;
+this.isSelected = false;
+};
+
+
+/**
+ * Show an effect when the mouse is over this element.
+ */
+Tile.prototype.mouseOver = function()
+{
+if ( this.isSelected )
+    {
+    this.setBorderColor( 'purple' );
+    }
+
+else
+    {
+    this.setBorderColor( 'blue' );
+    }
+};
+
+
+/**
+ * Remove the mouse over effect.
+ */
+Tile.prototype.mouseOut = function()
+{
+if ( this.isSelected )
+    {
+    this.select();
+    }
+
+else
+    {
+    this.unSelect();
+    }
+};
+
+
+Tile.prototype.setBorderColor = function( color )
+{
+var thickness = 4;
+var halfThickness = thickness / 2;
+
+this.border.visible = true;
+var g = this.border.graphics;
+
+g.beginStroke( color );
+g.setStrokeStyle( thickness );
+g.drawRect( halfThickness, halfThickness, this.tileWidth - thickness, this.tileHeight - thickness );
+g.endStroke();
 };
 
 
@@ -103,6 +144,7 @@ this.border.visible = false;
  */
 Tile.prototype.clear = function()
 {
+this.image.removeAllEventListeners();
 this.parent.removeChild( this.container );
 this.parent = null;
 this.container = null;

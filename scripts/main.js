@@ -27,12 +27,13 @@ var IMAGES_INFO = [
 var CURRENT_IMAGE_INFO = null;
 
 
-
 Main.init = function()
 {
 CANVAS = document.querySelector( '#MainCanvas' );
 STAGE = new createjs.Stage( CANVAS );
 PRELOAD = new createjs.LoadQueue();
+
+STAGE.enableMouseOver( 20 );
 
     // the 'id' is composed of the image id plus the column and line position
     // so 'mirana21' is the 'mirana' image, in the second column and first line
@@ -157,7 +158,6 @@ for (var column = 0 ; column < columns ; column++)
         TILES[ column ].push( tile );
         }
     }
-
 
     // shuffle the tiles
 shuffleTiles();
@@ -354,7 +354,6 @@ Main.getImage = function( id )
 {
 return PRELOAD.getResult( id );
 };
-
 
 
 /**
