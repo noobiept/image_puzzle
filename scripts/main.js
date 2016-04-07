@@ -141,11 +141,12 @@ $( donate ).removeClass( 'hidden' ).button();
 function start()
 {
 clear();
+var a;
 
     // if all the maps have already been played, then re-add all the images, and start again
 if ( IMAGES_LEFT.length === 0 )
     {
-    for (var a = 0 ; a < IMAGES_INFO.length ; a++)
+    for (a = 0 ; a < IMAGES_INFO.length ; a++)
         {
         IMAGES_LEFT.push( IMAGES_INFO[ a ] );
         }
@@ -164,18 +165,16 @@ var lines = imageInfo.lines;
 CANVAS.width = columns * imageInfo.tileWidth;
 CANVAS.height = lines * imageInfo.tileHeight;
 
-
     // add all the image tiles
-for (var column = 0 ; column < columns ; column++)
+var length = columns * lines;
+
+for (a = 0 ; a < length ; a++)
     {
-    TILES[ column ] = [];
+    var line = parseInt( a / columns, 10 );
+    var column = a - line * columns;
+    var tile = new Tile( imageInfo, STAGE, column, line );
 
-    for (var line = 0 ; line < lines ; line++)
-        {
-        var tile = new Tile( imageInfo, STAGE, column, line );
-
-        TILES[ column ].push( tile );
-        }
+    TILES.push( tile );
     }
 
     // shuffle the tiles
@@ -193,15 +192,9 @@ CURRENT_IMAGE_INFO = null;
 
 if ( TILES.length > 0 )
     {
-    var columns = TILES.length;
-    var lines = TILES[ 0 ].length;
-
-    for (var column = 0 ; column < columns ; column++)
+    for (var a = 0 ; a < TILES.length ; a++)
         {
-        for (var line = 0 ; line < lines ; line++)
-            {
-            TILES[ column ][ line ].clear();
-            }
+        TILES[ a ].clear();
         }
 
     TILES.length = 0;
@@ -214,34 +207,16 @@ if ( TILES.length > 0 )
  */
 function shuffleTiles()
 {
-var lines = CURRENT_IMAGE_INFO.lines;
-var columns = CURRENT_IMAGE_INFO.columns;
-var positions = [];
-var column, line;
+shuffle( TILES );
 
+var columns = getNumberOfColumns();
 
-for (column = 0 ; column < columns ; column++)
+for (var a = 0 ; a < TILES.length ; a++)
     {
-    for (line = 0 ; line < lines ; line++)
-        {
-        positions.push({ column: column, line: line });
-        }
-    }
-
-
-shuffle( positions );
-var positionsIndex = 0;
-
-for (column = 0 ; column < columns ; column++)
-    {
-    for (line = 0 ; line < lines ; line++)
-        {
-        var randomPosition = positions[ positionsIndex ];
-
-        TILES[ column ][ line ].moveTo( randomPosition.column, randomPosition.line );
-
-        positionsIndex++;
-        }
+    var line = parseInt( a / columns, 10 );
+    var column = a - line * columns;
+    var tile = TILES[ a ];
+    tile.moveTo( column, line );
     }
 }
 
@@ -264,8 +239,12 @@ else
         var selectedColumn = SELECTED.currentColumn;
         var selectedLine = SELECTED.currentLine;
 
+        TILES[ tile.currentLine * getNumberOfColumns() + tile.currentColumn ] = SELECTED;
+        TILES[ selectedLine * getNumberOfColumns() + selectedColumn ] = tile;
+
         SELECTED.moveTo( tile.currentColumn, tile.currentLine );
         tile.moveTo( selectedColumn, selectedLine );
+
 
         if ( isImageCorrect() )
             {
@@ -327,19 +306,13 @@ if ( SELECTED )
  */
 function isImageCorrect()
 {
-var lines = CURRENT_IMAGE_INFO.lines;
-var columns = CURRENT_IMAGE_INFO.columns;
-
-for (var column = 0 ; column < columns ; column++)
+for (var a = 0 ; a < TILES.length ; a++)
     {
-    for (var line = 0 ; line < lines ; line++)
-        {
-        var tile = TILES[ column ][ line ];
+    var tile = TILES[ a ];
 
-        if ( !tile.match() )
-            {
-            return false;
-            }
+    if ( !tile.match() )
+        {
+        return false;
         }
     }
 
@@ -380,6 +353,61 @@ Main.getImage = function( id )
 {
 return PRELOAD.getResult( id );
 };
+
+
+/**
+ * Highlight a correct move.
+ */
+function helpPlayer()
+{
+    // get an invalid placed tile
+var helpTile = null;
+
+for (var a = 0 ; a < TILES.length ; a++)
+    {
+    var tile = TILES[ a ];
+
+    if ( !tile.match() )
+        {
+        helpTile = tile;
+        break;
+        }
+    }
+
+    // highlight the tile and where its supposed to go
+if ( helpTile !== null )
+    {
+    helpTile.highlight();
+    getTile( helpTile.trueColumn, helpTile.trueLine ).highlight();
+    }
+}
+
+
+/**
+ * Get the total number of columns in the grid.
+ */
+function getNumberOfColumns()
+{
+return CURRENT_IMAGE_INFO.columns;
+}
+
+
+/**
+ * Get the total number of lines in the grid.
+ */
+function getNumberOfLines()
+{
+return CURRENT_IMAGE_INFO.lines;
+}
+
+
+/**
+ * Get a tile given the current position.
+ */
+function getTile( column, line )
+{
+return TILES[ line * getNumberOfColumns() + column ];
+}
 
 
 /**
