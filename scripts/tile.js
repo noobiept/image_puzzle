@@ -126,7 +126,7 @@ else
 
 Tile.prototype.setBorderColor = function( color )
 {
-var thickness = 4;
+var thickness = 3;
 var halfThickness = thickness / 2;
 
 this.border.visible = true;

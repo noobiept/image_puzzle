@@ -1,4 +1,4 @@
-/*global createjs, Tile*/
+/*global $, createjs, Tile*/
 'use strict';
 
 window.onload = function()
@@ -260,10 +260,17 @@ else
                 message += "\nYou've been through all the images.\nRestarting...";
                 }
 
-            window.alert( message );
-
-
-            start();
+            $( '#WinMessage' ).text( message ).dialog({
+                    modal: true,
+                    close: function( event, ui ) {
+                        start();
+                    },
+                    buttons: {
+                        ok: function() {
+                            $( this ).dialog( 'close' );
+                        }
+                    }
+                });
             return;
             }
         }
