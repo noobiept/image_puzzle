@@ -1,3 +1,6 @@
+/*global createjs, Tile*/
+'use strict';
+
 window.onload = function()
 {
 Main.init();

@@ -1,0 +1,15 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "linebreak-style": [ "error", "windows" ],
+        "semi": [ "error", "always" ],
+        "no-unused-vars": [ "error", { "args": "none" } ],
+        "consistent-return": [ "error" ],
+        "curly": [ "error" ],
+        "eqeqeq": [ "error" ],
+        "strict": [ "error", "global" ]
+    }
+}

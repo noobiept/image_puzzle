@@ -1,9 +1,17 @@
 module.exports = function( grunt )
 {
+var root = '../';
 var dest = '../release/<%= pkg.name %> <%= pkg.version %>/';
 
 grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
+
+        eslint: {
+            options: {
+                configFile: root + '.eslintrc.json'
+            },
+            target: [ root + 'scripts' ]
+        },
 
         clean: {
             options: {
@@ -17,7 +25,7 @@ grunt.initConfig({
         copy: {
             release: {
                 expand: true,
-                cwd: '../',
+                cwd: root,
                 src: [
                     'images/**',
                     'libraries/**'
@@ -28,12 +36,10 @@ grunt.initConfig({
 
         uglify: {
             release: {
-                files: {
-                    '../release/<%= pkg.name %> <%= pkg.version %>/min.js': [
-                        '../scripts/tile.js',
-                        '../scripts/main.js'
-                    ]
-                }
+                files: [{
+                    src: root + 'scripts/**/*.js',
+                    dest: dest + 'min.js'
+                }]
             }
         },
 
@@ -41,10 +47,13 @@ grunt.initConfig({
             release: {
                 files: [{
                     expand: true,
-                    cwd: '../',
-                    src: 'style.css',
-                    dest: dest
+                    cwd: root + 'css/',
+                    src: '**/*.css',
+                    dest: dest + 'css/'
                 }]
+            },
+            options: {
+                advanced: false
             }
         },
 
@@ -52,7 +61,7 @@ grunt.initConfig({
             release: {
                 files: [{
                     expand: true,
-                    cwd: '../',
+                    cwd: root,
                     src: 'index.html',
                     dest: dest
                 }]
@@ -61,6 +70,7 @@ grunt.initConfig({
     });
 
     // load the plugins
+grunt.loadNpmTasks( 'grunt-eslint' );
 grunt.loadNpmTasks( 'grunt-contrib-copy' );
 grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
@@ -68,5 +78,5 @@ grunt.loadNpmTasks( 'grunt-contrib-clean' );
 grunt.loadNpmTasks( 'grunt-processhtml' );
 
     // tasks
-grunt.registerTask( 'default', [ 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
+grunt.registerTask( 'default', [ 'eslint', 'clean', 'copy', 'uglify', 'cssmin', 'processhtml' ] );
 };

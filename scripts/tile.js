@@ -1,3 +1,6 @@
+/*global createjs, Main*/
+'use strict';
+
 function Tile( imageInfo, parent, trueColumn, trueLine )
 {
 var _this = this;
@@ -10,7 +13,7 @@ this.currentLine = trueLine;
     // the tile image
 var image = new createjs.Bitmap( Main.getImage( imageInfo.id + trueColumn + trueLine ) );
 
-image.on( 'click', function() { Main.selectTile( _this ) } );
+image.on( 'click', function() { Main.selectTile( _this ); } );
 
 
     // the selected border
