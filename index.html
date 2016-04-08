@@ -13,6 +13,7 @@
     <script type="text/javascript" src="libraries/easeljs-0.8.2.min.js"></script>
 
     <!-- build:js min.js -->
+    <script type="text/javascript" src="scripts/show_image.js"></script>
     <script type="text/javascript" src="scripts/tile.js"></script>
     <script type="text/javascript" src="scripts/main.js"></script>
     <!-- /build -->
@@ -22,10 +23,14 @@
 
     <ul id="GameMenu">
         <li id="Help" class="button hidden">Help</li>
+        <li id="ShowOriginal" class="button hidden">Show Original</li>
         <li id="Skip" class="button hidden">Skip</li>
         <li id="Donate" class="button hidden">Donate</li>
     </ul>
 
     <div id="WinMessage"></div>
+
+    <div id="Overlay" class="hidden"></div>
+    <img id="OriginalImage" class="hidden" />
 </body>
 </html>

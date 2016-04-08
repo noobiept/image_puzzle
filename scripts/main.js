@@ -1,4 +1,4 @@
-/*global $, createjs, Tile*/
+/*global $, createjs, Tile, ShowImage*/
 'use strict';
 
 window.onload = function()
@@ -111,6 +111,7 @@ PRELOAD.addEventListener( 'complete', function()
     STAGE.removeChild( loading );
 
     initMenu();
+    ShowImage.init();
     start();
     });
 PRELOAD.loadManifest( manifest, true );
@@ -125,6 +126,10 @@ function initMenu()
 var help = document.getElementById( 'Help' );
 help.onclick = helpPlayer;
 $( help ).removeClass( 'hidden' ).button();
+
+var original = document.getElementById( 'ShowOriginal' );
+original.onclick = showOriginalImage;
+$( original ).removeClass( 'hidden' ).button();
 
 var skip = document.getElementById( 'Skip' );
 skip.onclick = skipImage;
@@ -393,6 +398,15 @@ if ( helpTile !== null )
 function skipImage()
 {
 start();
+}
+
+
+/**
+ * Open a dialog with the original image, for help solving the puzzle.
+ */
+function showOriginalImage()
+{
+ShowImage.show( CURRENT_IMAGE_INFO.id );
 }
 
 
