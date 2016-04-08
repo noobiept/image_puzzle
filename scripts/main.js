@@ -126,6 +126,10 @@ var help = document.getElementById( 'Help' );
 help.onclick = helpPlayer;
 $( help ).removeClass( 'hidden' ).button();
 
+var skip = document.getElementById( 'Skip' );
+skip.onclick = skipImage;
+$( skip ).removeClass( 'hidden' ).button();
+
 var donate = document.getElementById( 'Donate' );
 donate.onclick = function()
     {
@@ -251,7 +255,7 @@ else
             unSelectSelectedTile();
             STAGE.update();
 
-            var message = 'You Won!';
+            var message = 'Correct!';
 
             if ( IMAGES_LEFT.length === 0 )
                 {
@@ -380,6 +384,15 @@ if ( helpTile !== null )
     helpTile.highlight();
     getTile( helpTile.trueColumn, helpTile.trueLine ).highlight();
     }
+}
+
+
+/**
+ * Skip the current image.
+ */
+function skipImage()
+{
+start();
 }
 
 

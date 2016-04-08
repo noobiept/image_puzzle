@@ -3,7 +3,6 @@ Images
 
 The images are from the game dota2.
 
-
 Libraries
 =========
 
