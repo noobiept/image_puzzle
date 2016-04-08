@@ -21,7 +21,9 @@ var IMAGES_LEFT = [];   // has the images info that haven't being played yet
 var IMAGES_INFO = [
         { id: 'beta_is_over', columns: 8, lines: 2, tileWidth: 169, tileHeight: 192 },
         { id: 'mirana', columns: 8, lines: 2, tileWidth: 200, tileHeight: 285 },
-        { id: 'snow', columns: 8, lines: 2, tileWidth: 179, tileHeight: 359 }
+        { id: 'snow', columns: 8, lines: 2, tileWidth: 179, tileHeight: 359 },
+        { id: 'lina', columns: 4, lines: 4, tileWidth: 256, tileHeight: 144 },
+        { id: 'treant', columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 }
     ];
 var CURRENT_IMAGE_INFO = null;
 
