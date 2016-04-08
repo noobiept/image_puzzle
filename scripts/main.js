@@ -12,7 +12,6 @@ var Main;
 
 
 var CANVAS = null;
-var PRELOAD = null;
 var STAGE = null;
 
 var TILES = [];     // has all the tile objects
@@ -31,90 +30,13 @@ Main.init = function()
 {
 CANVAS = document.querySelector( '#MainCanvas' );
 STAGE = new createjs.Stage( CANVAS );
-PRELOAD = new createjs.LoadQueue();
-
 STAGE.enableMouseOver( 20 );
-
-    // the 'id' is composed of the image id plus the column and line position
-    // so 'mirana21' is the 'mirana' image, in the second column and first line
-var manifest = [
-        { id: 'mirana00', src: 'images/mirana/mirana_01.png' },
-        { id: 'mirana10', src: 'images/mirana/mirana_02.png' },
-        { id: 'mirana20', src: 'images/mirana/mirana_03.png' },
-        { id: 'mirana30', src: 'images/mirana/mirana_04.png' },
-        { id: 'mirana40', src: 'images/mirana/mirana_05.png' },
-        { id: 'mirana50', src: 'images/mirana/mirana_06.png' },
-        { id: 'mirana60', src: 'images/mirana/mirana_07.png' },
-        { id: 'mirana70', src: 'images/mirana/mirana_08.png' },
-        { id: 'mirana01', src: 'images/mirana/mirana_09.png' },
-        { id: 'mirana11', src: 'images/mirana/mirana_10.png' },
-        { id: 'mirana21', src: 'images/mirana/mirana_11.png' },
-        { id: 'mirana31', src: 'images/mirana/mirana_12.png' },
-        { id: 'mirana41', src: 'images/mirana/mirana_13.png' },
-        { id: 'mirana51', src: 'images/mirana/mirana_14.png' },
-        { id: 'mirana61', src: 'images/mirana/mirana_15.png' },
-        { id: 'mirana71', src: 'images/mirana/mirana_16.png' },
-
-        { id: 'beta_is_over00', src: 'images/beta_is_over/beta_is_over_01.png' },
-        { id: 'beta_is_over10', src: 'images/beta_is_over/beta_is_over_02.png' },
-        { id: 'beta_is_over20', src: 'images/beta_is_over/beta_is_over_03.png' },
-        { id: 'beta_is_over30', src: 'images/beta_is_over/beta_is_over_04.png' },
-        { id: 'beta_is_over40', src: 'images/beta_is_over/beta_is_over_05.png' },
-        { id: 'beta_is_over50', src: 'images/beta_is_over/beta_is_over_06.png' },
-        { id: 'beta_is_over60', src: 'images/beta_is_over/beta_is_over_07.png' },
-        { id: 'beta_is_over70', src: 'images/beta_is_over/beta_is_over_08.png' },
-        { id: 'beta_is_over01', src: 'images/beta_is_over/beta_is_over_09.png' },
-        { id: 'beta_is_over11', src: 'images/beta_is_over/beta_is_over_10.png' },
-        { id: 'beta_is_over21', src: 'images/beta_is_over/beta_is_over_11.png' },
-        { id: 'beta_is_over31', src: 'images/beta_is_over/beta_is_over_12.png' },
-        { id: 'beta_is_over41', src: 'images/beta_is_over/beta_is_over_13.png' },
-        { id: 'beta_is_over51', src: 'images/beta_is_over/beta_is_over_14.png' },
-        { id: 'beta_is_over61', src: 'images/beta_is_over/beta_is_over_15.png' },
-        { id: 'beta_is_over71', src: 'images/beta_is_over/beta_is_over_16.png' },
-
-        { id: 'snow00', src: 'images/snow/snow_01.png' },
-        { id: 'snow10', src: 'images/snow/snow_02.png' },
-        { id: 'snow20', src: 'images/snow/snow_03.png' },
-        { id: 'snow30', src: 'images/snow/snow_04.png' },
-        { id: 'snow40', src: 'images/snow/snow_05.png' },
-        { id: 'snow50', src: 'images/snow/snow_06.png' },
-        { id: 'snow60', src: 'images/snow/snow_07.png' },
-        { id: 'snow70', src: 'images/snow/snow_08.png' },
-        { id: 'snow01', src: 'images/snow/snow_09.png' },
-        { id: 'snow11', src: 'images/snow/snow_10.png' },
-        { id: 'snow21', src: 'images/snow/snow_11.png' },
-        { id: 'snow31', src: 'images/snow/snow_12.png' },
-        { id: 'snow41', src: 'images/snow/snow_13.png' },
-        { id: 'snow51', src: 'images/snow/snow_14.png' },
-        { id: 'snow61', src: 'images/snow/snow_15.png' },
-        { id: 'snow71', src: 'images/snow/snow_16.png' }
-    ];
 
 createjs.Ticker.on( 'tick', tick );
 
-
-var loading = new createjs.Text( 'Loading..', '30px monospace' );
-
-loading.textAlign = 'center';
-loading.textBaseline = 'middle';
-loading.x = CANVAS.width / 2;
-loading.y = CANVAS.height / 2;
-
-STAGE.addChild( loading );
-
-PRELOAD.addEventListener( 'progress', function( event )
-    {
-    loading.text = 'Loading.. ' + Math.round( event.progress * 100 ) + '%';
-    });
-PRELOAD.addEventListener( 'complete', function()
-    {
-    STAGE.removeChild( loading );
-
-    initMenu();
-    ShowImage.init();
-    start();
-    });
-PRELOAD.loadManifest( manifest, true );
+initMenu();
+ShowImage.init();
+start();
 };
 
 
@@ -353,15 +275,6 @@ while( currentIndex !== 0 )
 
 return array;
 }
-
-
-/**
- * Get a bitmap image.
- */
-Main.getImage = function( id )
-{
-return PRELOAD.getResult( id );
-};
 
 
 /**
