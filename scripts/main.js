@@ -27,6 +27,9 @@ var IMAGES_INFO = [
     ];
 var CURRENT_IMAGE_INFO = null;
 
+var IMAGES_LEFT_UI;
+var TILES_CORRECT_UI;
+
 
 Main.init = function()
 {
@@ -35,6 +38,7 @@ STAGE = new createjs.Stage( CANVAS );
 STAGE.enableMouseOver( 20 );
 
 createjs.Ticker.on( 'tick', tick );
+
 
 initMenu();
 ShowImage.init();
@@ -49,22 +53,25 @@ function initMenu()
 {
 var help = document.getElementById( 'Help' );
 help.onclick = helpPlayer;
-$( help ).removeClass( 'hidden' ).button();
+$( help ).button();
 
 var original = document.getElementById( 'ShowOriginal' );
 original.onclick = showOriginalImage;
-$( original ).removeClass( 'hidden' ).button();
+$( original ).button();
 
 var skip = document.getElementById( 'Skip' );
 skip.onclick = skipImage;
-$( skip ).removeClass( 'hidden' ).button();
+$( skip ).button();
 
 var donate = document.getElementById( 'Donate' );
 donate.onclick = function()
     {
     window.open( 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UQ6ZF2JKUC626', '_blank' );
     };
-$( donate ).removeClass( 'hidden' ).button();
+$( donate ).button();
+
+IMAGES_LEFT_UI = document.getElementById( 'ImagesLeft' );
+TILES_CORRECT_UI = document.getElementById( 'TilesCorrect' );
 }
 
 
@@ -112,6 +119,7 @@ for (a = 0 ; a < length ; a++)
 
     // shuffle the tiles
 shuffleTiles();
+updateImagesLeft();
 }
 
 
@@ -349,6 +357,17 @@ return CURRENT_IMAGE_INFO.lines;
 function getTile( column, line )
 {
 return TILES[ line * getNumberOfColumns() + column ];
+}
+
+
+/**
+ * Update the game menu UI with the current image and total images available.
+ */
+function updateImagesLeft()
+{
+var total = IMAGES_INFO.length;
+
+IMAGES_LEFT_UI.innerHTML = 'Image: ' + (total - IMAGES_LEFT.length) + '/' + total;
 }
 
 
