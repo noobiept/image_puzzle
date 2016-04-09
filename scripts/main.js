@@ -1,4 +1,4 @@
-/*global $, createjs, Tile, ShowImage*/
+/*global $, createjs, Tile, ShowImage, GameMenu*/
 'use strict';
 
 window.onload = function()
@@ -27,9 +27,6 @@ var IMAGES_INFO = [
     ];
 var CURRENT_IMAGE_INFO = null;
 
-var IMAGES_LEFT_UI;
-var TILES_CORRECT_UI;
-
 
 Main.init = function()
 {
@@ -39,46 +36,16 @@ STAGE.enableMouseOver( 20 );
 
 createjs.Ticker.on( 'tick', tick );
 
-
-initMenu();
+GameMenu.init();
 ShowImage.init();
-start();
+Main.start();
 };
-
-
-/**
- * Initialize the menu elements.
- */
-function initMenu()
-{
-var help = document.getElementById( 'Help' );
-help.onclick = helpPlayer;
-$( help ).button();
-
-var original = document.getElementById( 'ShowOriginal' );
-original.onclick = showOriginalImage;
-$( original ).button();
-
-var skip = document.getElementById( 'Skip' );
-skip.onclick = skipImage;
-$( skip ).button();
-
-var donate = document.getElementById( 'Donate' );
-donate.onclick = function()
-    {
-    window.open( 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UQ6ZF2JKUC626', '_blank' );
-    };
-$( donate ).button();
-
-IMAGES_LEFT_UI = document.getElementById( 'ImagesLeft' );
-TILES_CORRECT_UI = document.getElementById( 'TilesCorrect' );
-}
 
 
 /**
  * Start a random image (off the ones that haven't being played yet).
  */
-function start()
+Main.start = function()
 {
 clear();
 var a;
@@ -119,8 +86,9 @@ for (a = 0 ; a < length ; a++)
 
     // shuffle the tiles
 shuffleTiles();
-updateImagesLeft();
-}
+
+GameMenu.updateImagesLeft( IMAGES_INFO.length, IMAGES_LEFT.length );
+};
 
 
 /**
@@ -202,7 +170,7 @@ else
             $( '#WinMessage' ).text( message ).dialog({
                     modal: true,
                     close: function( event, ui ) {
-                        start();
+                        Main.start();
                     },
                     buttons: {
                         ok: function() {
@@ -288,52 +256,6 @@ return array;
 
 
 /**
- * Highlight a correct move.
- */
-function helpPlayer()
-{
-    // get an invalid placed tile
-var helpTile = null;
-
-for (var a = 0 ; a < TILES.length ; a++)
-    {
-    var tile = TILES[ a ];
-
-    if ( !tile.match() )
-        {
-        helpTile = tile;
-        break;
-        }
-    }
-
-    // highlight the tile and where its supposed to go
-if ( helpTile !== null )
-    {
-    helpTile.highlight();
-    getTile( helpTile.trueColumn, helpTile.trueLine ).highlight();
-    }
-}
-
-
-/**
- * Skip the current image.
- */
-function skipImage()
-{
-start();
-}
-
-
-/**
- * Open a dialog with the original image, for help solving the puzzle.
- */
-function showOriginalImage()
-{
-ShowImage.show( CURRENT_IMAGE_INFO.id );
-}
-
-
-/**
  * Get the total number of columns in the grid.
  */
 function getNumberOfColumns()
@@ -361,14 +283,37 @@ return TILES[ line * getNumberOfColumns() + column ];
 
 
 /**
- * Update the game menu UI with the current image and total images available.
+ * Highlight a correct move.
  */
-function updateImagesLeft()
+Main.helpPlayer = function()
 {
-var total = IMAGES_INFO.length;
+    // get an invalid placed tile
+var helpTile = null;
 
-IMAGES_LEFT_UI.innerHTML = 'Image: ' + (total - IMAGES_LEFT.length) + '/' + total;
-}
+for (var a = 0 ; a < TILES.length ; a++)
+    {
+    var tile = TILES[ a ];
+
+    if ( !tile.match() )
+        {
+        helpTile = tile;
+        break;
+        }
+    }
+
+    // highlight the tile and where its supposed to go
+if ( helpTile !== null )
+    {
+    helpTile.highlight();
+    getTile( helpTile.trueColumn, helpTile.trueLine ).highlight();
+    }
+};
+
+
+Main.getCurrentImageId = function()
+{
+return CURRENT_IMAGE_INFO.id;
+};
 
 
 /**
