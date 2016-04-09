@@ -23,7 +23,9 @@ var IMAGES_INFO = [
         { id: 'mirana', columns: 8, lines: 2, tileWidth: 200, tileHeight: 285 },
         { id: 'snow', columns: 8, lines: 2, tileWidth: 179, tileHeight: 359 },
         { id: 'lina', columns: 4, lines: 4, tileWidth: 256, tileHeight: 144 },
-        { id: 'treant', columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 }
+        { id: 'treant', columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 },
+        { id: 'demoman_merasmus', columns: 5, lines: 5, tileWidth: 320, tileHeight: 338 },
+        { id: 'expiration_date', columns: 6, lines: 5, tileWidth: 320, tileHeight: 216 }
     ];
 var CURRENT_IMAGE_INFO = null;
 

@@ -1,7 +1,7 @@
 Images
 ======
 
-The images are from the game dota2.
+The images are from the games `dota 2` and `team fortress 2`.
 
 Libraries
 =========
