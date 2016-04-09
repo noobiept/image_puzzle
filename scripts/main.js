@@ -90,6 +90,7 @@ for (a = 0 ; a < length ; a++)
 shuffleTiles();
 
 GameMenu.updateImagesLeft( IMAGES_INFO.length, IMAGES_LEFT.length );
+calculateCorrectTiles();
 };
 
 
@@ -156,8 +157,9 @@ else
         SELECTED.moveTo( tile.currentColumn, tile.currentLine );
         tile.moveTo( selectedColumn, selectedLine );
 
+        var correct = calculateCorrectTiles();
 
-        if ( isImageCorrect() )
+        if ( isImageCorrect( correct ) )
             {
             unSelectSelectedTile();
             STAGE.update();
@@ -215,19 +217,9 @@ if ( SELECTED )
 /**
  * Check if the image is correctly positioned (if the puzzle is solved).
  */
-function isImageCorrect()
+function isImageCorrect( correct )
 {
-for (var a = 0 ; a < TILES.length ; a++)
-    {
-    var tile = TILES[ a ];
-
-    if ( !tile.match() )
-        {
-        return false;
-        }
-    }
-
-return true;
+return correct === TILES.length;
 }
 
 
@@ -316,6 +308,29 @@ Main.getCurrentImageId = function()
 {
 return CURRENT_IMAGE_INFO.id;
 };
+
+
+/**
+ * Calculate the number of correct tiles (that are placed in the correct position).
+ */
+function calculateCorrectTiles()
+{
+var correct = 0;
+
+for (var a = 0 ; a < TILES.length ; a++)
+    {
+    var tile = TILES[ a ];
+
+    if ( tile.match() )
+        {
+        correct++;
+        }
+    }
+
+GameMenu.updateCorrectTiles( correct, TILES.length );
+
+return correct;
+}
 
 
 /**
