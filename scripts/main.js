@@ -25,7 +25,9 @@ var IMAGES_INFO = [
         { id: 'lina', columns: 4, lines: 4, tileWidth: 256, tileHeight: 144 },
         { id: 'treant', columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 },
         { id: 'demoman_merasmus', columns: 5, lines: 5, tileWidth: 320, tileHeight: 338 },
-        { id: 'expiration_date', columns: 6, lines: 5, tileWidth: 320, tileHeight: 216 }
+        { id: 'expiration_date', columns: 6, lines: 5, tileWidth: 320, tileHeight: 216 },
+        { id: 'gun_mettle', columns: 5, lines: 5, tileWidth: 512, tileHeight: 320 },
+        { id: 'pyroland_sunset', columns: 8, lines: 8, tileWidth: 320, tileHeight: 200 }
     ];
 var CURRENT_IMAGE_INFO = null;
 
