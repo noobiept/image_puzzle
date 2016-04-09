@@ -1,3 +1,8 @@
+html, body
+    {
+    overflow: visible;  /* is hidden by default when running as a chrome app */
+    }
+
 body
     {
     text-align: center;
