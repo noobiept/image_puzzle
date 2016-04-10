@@ -7,6 +7,12 @@ Main.init();
 };
 
 
+window.onresize = function()
+{
+Main.resize();
+};
+
+
 var Main;
 (function(Main) {
 
@@ -72,10 +78,6 @@ CURRENT_IMAGE_INFO = imageInfo;
 var columns = imageInfo.columns;
 var lines = imageInfo.lines;
 
-    // update the canvas dimensions to fit the image
-CANVAS.width = columns * imageInfo.tileWidth;
-CANVAS.height = lines * imageInfo.tileHeight;
-
     // add all the image tiles
 var length = columns * lines;
 
@@ -93,6 +95,7 @@ shuffleTiles();
 
 GameMenu.updateImagesLeft( IMAGES_INFO.length, IMAGES_LEFT.length );
 calculateCorrectTiles();
+Main.resize();
 };
 
 
@@ -333,6 +336,42 @@ GameMenu.updateCorrectTiles( correct, TILES.length );
 
 return correct;
 }
+
+
+/**
+ * Resize the game to fit in the available window's width/height.
+ */
+Main.resize = function()
+{
+var availableWidth = $( window ).outerWidth( true );
+var availableHeight = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
+
+var imageInfo = CURRENT_IMAGE_INFO;
+
+var width = imageInfo.columns * imageInfo.tileWidth;
+var height = imageInfo.lines * imageInfo.tileHeight;
+
+if ( width > availableWidth )
+    {
+    width = availableWidth;
+    }
+
+if ( height > availableHeight )
+    {
+    height = availableHeight;
+    }
+
+CANVAS.width = width;
+CANVAS.height = height;
+
+var tileWidth = width / imageInfo.columns;
+var tileHeight = height / imageInfo.lines;
+
+for (var a = 0 ; a < TILES.length ; a++)
+    {
+    TILES[ a ].updateSize( tileWidth, tileHeight );
+    }
+};
 
 
 /**

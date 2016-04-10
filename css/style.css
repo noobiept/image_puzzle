@@ -1,6 +1,9 @@
 html, body
     {
-    overflow: visible;  /* is hidden by default when running as a chrome app */
+    background-color: black;
+    color: white;
+    margin: 0;
+    padding: 0;
     }
 
 body
@@ -38,4 +41,10 @@ body
     display: inline-block;
     list-style-type: none;
     margin: 10px;
+    }
+
+#GameMenu
+    {
+    margin: 0;
+    padding: 25px 0;
     }

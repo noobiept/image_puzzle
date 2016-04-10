@@ -32,6 +32,8 @@ container.y = trueLine * imageInfo.tileHeight;
 container.addChild( image );
 container.addChild( border );
 
+this.originalWidth = imageInfo.tileWidth;
+this.originalHeight = imageInfo.tileHeight;
 this.tileWidth = imageInfo.tileWidth;
 this.tileHeight = imageInfo.tileHeight;
 this.container = container;
@@ -143,10 +145,24 @@ var halfThickness = thickness / 2;
 this.border.visible = true;
 var g = this.border.graphics;
 
+g.clear();
 g.beginStroke( color );
 g.setStrokeStyle( thickness );
 g.drawRect( halfThickness, halfThickness, this.tileWidth - thickness, this.tileHeight - thickness );
 g.endStroke();
+};
+
+
+Tile.prototype.updateSize = function( width, height )
+{
+this.container.x = this.currentColumn * width;
+this.container.y = this.currentLine * height;
+
+this.image.scaleX = width / this.originalWidth;
+this.image.scaleY = height / this.originalHeight;
+
+this.tileWidth = width;
+this.tileHeight = height;
 };
 
 
