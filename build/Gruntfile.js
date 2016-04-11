@@ -31,7 +31,9 @@ grunt.initConfig({
                 cwd: root,
                 src: [
                     'images/**',
-                    'libraries/**'
+                    'libraries/**',
+                    'background.js',
+                    'manifest.json'
                 ],
                 dest: dest
             }
