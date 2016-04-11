@@ -1,3 +1,8 @@
+Info
+====
+
+Click on a tile to select it (that tile will have a red border), and then on other tile to switch the position between them. Keep doing that until all the tiles are placed correctly.
+
 Images
 ======
 
