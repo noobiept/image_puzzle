@@ -153,16 +153,16 @@ g.endStroke();
 };
 
 
-Tile.prototype.updateSize = function( width, height )
+Tile.prototype.updateSize = function( scale )
 {
-this.container.x = this.currentColumn * width;
-this.container.y = this.currentLine * height;
+this.tileWidth = this.originalWidth * scale;
+this.tileHeight = this.originalHeight * scale;
 
-this.image.scaleX = width / this.originalWidth;
-this.image.scaleY = height / this.originalHeight;
+this.image.scaleX = scale;
+this.image.scaleY = scale;
 
-this.tileWidth = width;
-this.tileHeight = height;
+this.container.x = this.currentColumn * this.tileWidth;
+this.container.y = this.currentLine * this.tileHeight;
 };
 
 

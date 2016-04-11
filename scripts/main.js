@@ -347,29 +347,26 @@ var availableWidth = $( window ).outerWidth( true );
 var availableHeight = $( window ).outerHeight( true ) - $( '#GameMenu' ).outerHeight( true );
 
 var imageInfo = CURRENT_IMAGE_INFO;
+var imageWidth = imageInfo.tileWidth * imageInfo.columns;
+var imageHeight = imageInfo.tileHeight * imageInfo.lines;
 
-var width = imageInfo.columns * imageInfo.tileWidth;
-var height = imageInfo.lines * imageInfo.tileHeight;
+    // determine which scale to use
+    // we'll want to use the same scale value for x and y (to keep the image aspect ratio)
+var scaleX = availableWidth / imageWidth;
+var scaleY = availableHeight / imageHeight;
 
-if ( width > availableWidth )
+var scale = scaleX;
+if ( scaleY < scaleX )
     {
-    width = availableWidth;
+    scale = scaleY;
     }
 
-if ( height > availableHeight )
-    {
-    height = availableHeight;
-    }
-
-CANVAS.width = width;
-CANVAS.height = height;
-
-var tileWidth = width / imageInfo.columns;
-var tileHeight = height / imageInfo.lines;
+CANVAS.width = imageWidth * scale;
+CANVAS.height = imageHeight * scale;
 
 for (var a = 0 ; a < TILES.length ; a++)
     {
-    TILES[ a ].updateSize( tileWidth, tileHeight );
+    TILES[ a ].updateSize( scale );
     }
 };
 
