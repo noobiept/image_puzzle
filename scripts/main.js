@@ -33,7 +33,10 @@ var IMAGES_INFO = [
         { id: 'demoman_merasmus', columns: 5, lines: 5, tileWidth: 320, tileHeight: 338 },
         { id: 'expiration_date', columns: 6, lines: 5, tileWidth: 320, tileHeight: 216 },
         { id: 'gun_mettle', columns: 5, lines: 5, tileWidth: 512, tileHeight: 320 },
-        { id: 'pyroland_sunset', columns: 8, lines: 8, tileWidth: 320, tileHeight: 200 }
+        { id: 'pyroland_sunset', columns: 8, lines: 8, tileWidth: 320, tileHeight: 200 },
+        { id: 'bounty_hunter', columns: 7, lines: 8, tileWidth: 260, tileHeight: 128 },
+        { id: 'shadow_demon', columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 },
+        { id: 'timbuk_tuesday', columns: 8, lines: 5, tileWidth: 250, tileHeight: 225 }
     ];
 var CURRENT_IMAGE_INFO = null;
 
