@@ -13,7 +13,7 @@ this.currentLine = trueLine;
     // the tile image
     // image source in the format: images/id/id(column)(line).png
     // where column and line are numbers, for example 'images/mirana/mirana21.png' (second column first line)
-var image = new createjs.Bitmap( 'images/' + imageInfo.id + '/' + (imageInfo.id + trueColumn + trueLine) + '.png' );
+var image = new createjs.Bitmap( 'images/' + imageInfo.id + '/' + (imageInfo.id + trueLine + trueColumn) + '.jpeg' );
 
 image.on( 'click', function() { Main.selectTile( _this ); } );
 image.on( 'mouseover', this.mouseOver, this );
