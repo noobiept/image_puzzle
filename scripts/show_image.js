@@ -18,7 +18,7 @@ OVERLAY.onclick = close;
 
 ShowImage.show = function( id )
 {
-IMAGE.src = 'images/' + id + '.jpg';
+IMAGE.src = 'images/' + id + '.jpeg';
 IMAGE.classList.remove( 'hidden' );
 OVERLAY.classList.remove( 'hidden' );
 };
