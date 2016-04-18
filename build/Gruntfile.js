@@ -31,6 +31,10 @@ grunt.initConfig({
                 cwd: root,
                 src: [
                     'images/**',
+                        // don't copy the promotion or original images
+                    '!images/promotion/**',
+                    '!images/original/**',
+
                     'libraries/**',
                     'background.js',
                     'manifest.json'
