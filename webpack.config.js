@@ -1,6 +1,15 @@
 const Path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const Package = require("./package.json");
+
+function getOutputPath() {
+    return Path.resolve(
+        __dirname,
+        "release",
+        `${Package.name} ${Package.version}`
+    );
+}
 
 module.exports = {
     entry: "./source/main.ts",
@@ -18,7 +27,7 @@ module.exports = {
     },
     output: {
         filename: "bundle.js",
-        path: Path.resolve(__dirname, "output"),
+        path: getOutputPath(),
     },
     plugins: [
         new HtmlWebpackPlugin({
