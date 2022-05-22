@@ -20,12 +20,6 @@ export function init() {
     skip.onclick = Main.start;
     $(skip).button();
 
-    var donate = document.getElementById("Donate");
-    donate.onclick = function () {
-        window.open("http://nbpt.eu/donate/", "_blank");
-    };
-    $(donate).button();
-
     IMAGES_LEFT_UI = document.getElementById("ImagesLeft");
     TILES_CORRECT_UI = document.getElementById("TilesCorrect");
 }
