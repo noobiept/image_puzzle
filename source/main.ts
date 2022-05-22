@@ -1,3 +1,4 @@
+import { shuffle } from "@drk4/utilities";
 import * as GameMenu from "./game_menu";
 import * as ShowImage from "./show_image";
 import { Tile } from "./tile";
@@ -244,29 +245,6 @@ function unSelectSelectedTile() {
  */
 function isImageCorrect(correct) {
     return correct === TILES.length;
-}
-
-/**
- * Shuffle an array.
- */
-function shuffle(array) {
-    let currentIndex = array.length;
-    let temporaryValue;
-    let randomIndex;
-
-    // while there remain elements to shuffle
-    while (currentIndex !== 0) {
-        // pick a remaining element...
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // And swap it with the current element.
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
 }
 
 /**
