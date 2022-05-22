@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>Image Puzzle</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>Image Puzzle</title>
 
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="libraries/jqueryui-1.11/jquery-ui.min.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link
+            rel="stylesheet"
+            href="libraries/jqueryui-1.11/jquery-ui.min.css"
+        />
 
-    <script type="text/javascript" src="libraries/jquery-2.2.4.min.js"></script>
-    <script type="text/javascript" src="libraries/jqueryui-1.11/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="libraries/easeljs-0.8.2.min.js"></script>
+        <script
+            type="text/javascript"
+            src="libraries/jquery-2.2.4.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="libraries/jqueryui-1.11/jquery-ui.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="libraries/easeljs-0.8.2.min.js"
+        ></script>
+    </head>
+    <body>
+        <canvas id="MainCanvas"></canvas>
 
-    <!-- build:js min.js -->
-    <script type="text/javascript" src="scripts/show_image.js"></script>
-    <script type="text/javascript" src="scripts/game_menu.js"></script>
-    <script type="text/javascript" src="scripts/tile.js"></script>
-    <script type="text/javascript" src="scripts/main.js"></script>
-    <!-- /build -->
-</head>
-<body>
-    <canvas id="MainCanvas"></canvas>
+        <ul id="GameMenu">
+            <li id="Help" class="button">Help</li>
+            <li id="ShowOriginal" class="button">Show Original</li>
+            <li id="Skip" class="button">Skip</li>
+            <li id="Donate" class="button">Donate</li>
+            <li id="ImagesLeft" class="value"></li>
+            <li id="TilesCorrect" class="value"></li>
+        </ul>
 
-    <ul id="GameMenu">
-        <li id="Help" class="button">Help</li>
-        <li id="ShowOriginal" class="button">Show Original</li>
-        <li id="Skip" class="button">Skip</li>
-        <li id="Donate" class="button">Donate</li>
-        <li id="ImagesLeft" class="value"></li>
-        <li id="TilesCorrect" class="value"></li>
-    </ul>
+        <div id="WinMessage"></div>
 
-    <div id="WinMessage"></div>
-
-    <div id="Overlay" class="hidden"></div>
-    <img id="OriginalImage" class="hidden" />
-</body>
+        <div id="Overlay" class="hidden"></div>
+        <img id="OriginalImage" class="hidden" />
+    </body>
 </html>
