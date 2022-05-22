@@ -10,6 +10,12 @@ Click on a tile to select it (that tile will have a red border), and then on oth
 
 The images are from the games `dota 2` and `team fortress 2`.
 
+# Commands
+
+-   `npm start`
+-   `npm run build`
+-   `npm run test`
+
 # Libraries
 
 -   createjs

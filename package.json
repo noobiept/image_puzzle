@@ -7,6 +7,8 @@
         "@types/jqueryui": "^1.12.16",
         "copy-webpack-plugin": "^11.0.0",
         "html-webpack-plugin": "^5.5.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.6.2",
         "ts-loader": "^9.3.0",
         "typescript": "^4.6.4",
         "webpack": "^5.72.1",
@@ -15,6 +17,11 @@
     },
     "scripts": {
         "start": "webpack serve --open --config webpack.config.js --mode=development",
-        "build": "webpack --config webpack.config.js --mode=production"
+        "build": "webpack --config webpack.config.js --mode=production",
+        "test": "npm-run-all --parallel test:*",
+        "test:format": "prettier --check ."
+    },
+    "prettier": {
+        "tabWidth": 4
     }
 }
