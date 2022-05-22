@@ -1,15 +1,13 @@
 {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
     "env": {
         "browser": true
     },
-    "extends": "eslint:recommended",
-    "rules": {
-        "linebreak-style": ["error", "windows"],
-        "semi": ["error", "always"],
-        "no-unused-vars": ["off"],
-        "consistent-return": ["error"],
-        "curly": ["error"],
-        "eqeqeq": ["error"],
-        "strict": ["error", "global"]
-    }
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
+    ]
 }

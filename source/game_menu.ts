@@ -1,22 +1,22 @@
 import * as Main from "./main";
 import * as ShowImage from "./show_image";
 
-var IMAGES_LEFT_UI;
-var TILES_CORRECT_UI;
+let IMAGES_LEFT_UI;
+let TILES_CORRECT_UI;
 
 /**
  * Initialize the menu elements.
  */
 export function init() {
-    var help = document.getElementById("Help");
+    const help = document.getElementById("Help");
     help.onclick = Main.helpPlayer;
     $(help).button();
 
-    var original = document.getElementById("ShowOriginal");
+    const original = document.getElementById("ShowOriginal");
     original.onclick = showOriginalImage;
     $(original).button();
 
-    var skip = document.getElementById("Skip");
+    const skip = document.getElementById("Skip");
     skip.onclick = Main.start;
     $(skip).button();
 

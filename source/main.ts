@@ -11,14 +11,14 @@ window.onresize = function () {
     resize();
 };
 
-var CANVAS = null;
-var STAGE = null;
+let CANVAS = null;
+let STAGE = null;
 
-var TILES = []; // has all the tile objects
-var SELECTED = null; // has the currently selected tile object
+const TILES = []; // has all the tile objects
+let SELECTED = null; // has the currently selected tile object
 
-var IMAGES_LEFT: ImageInfo[] = []; // has the images info that haven't being played yet
-var IMAGES_INFO: ImageInfo[] = [
+const IMAGES_LEFT: ImageInfo[] = []; // has the images info that haven't being played yet
+const IMAGES_INFO: ImageInfo[] = [
     {
         id: "beta_is_over",
         columns: 8,
@@ -80,7 +80,7 @@ var IMAGES_INFO: ImageInfo[] = [
         tileHeight: 225,
     },
 ];
-var CURRENT_IMAGE_INFO = null;
+let CURRENT_IMAGE_INFO = null;
 
 function init() {
     CANVAS = document.querySelector("#MainCanvas");
@@ -108,21 +108,21 @@ export function start() {
     }
 
     // select a random image
-    var random = Math.floor(Math.random() * IMAGES_LEFT.length);
-    var imageInfo = IMAGES_LEFT.splice(random, 1)[0];
+    const random = Math.floor(Math.random() * IMAGES_LEFT.length);
+    const imageInfo = IMAGES_LEFT.splice(random, 1)[0];
 
     CURRENT_IMAGE_INFO = imageInfo;
 
-    var columns = imageInfo.columns;
-    var lines = imageInfo.lines;
+    const columns = imageInfo.columns;
+    const lines = imageInfo.lines;
 
     // add all the image tiles
-    var length = columns * lines;
+    const length = columns * lines;
 
     for (let a = 0; a < length; a++) {
-        var line = Math.floor(a / columns);
-        var column = a - line * columns;
-        var tile = new Tile(imageInfo, STAGE, column, line);
+        const line = Math.floor(a / columns);
+        const column = a - line * columns;
+        const tile = new Tile(imageInfo, STAGE, column, line);
 
         TILES.push(tile);
     }
@@ -143,7 +143,7 @@ function clear() {
     CURRENT_IMAGE_INFO = null;
 
     if (TILES.length > 0) {
-        for (var a = 0; a < TILES.length; a++) {
+        for (let a = 0; a < TILES.length; a++) {
             TILES[a].clear();
         }
 
@@ -157,12 +157,12 @@ function clear() {
 function shuffleTiles() {
     shuffle(TILES);
 
-    var columns = getNumberOfColumns();
+    const columns = getNumberOfColumns();
 
-    for (var a = 0; a < TILES.length; a++) {
-        var line = Math.floor(a / columns);
-        var column = a - line * columns;
-        var tile = TILES[a];
+    for (let a = 0; a < TILES.length; a++) {
+        const line = Math.floor(a / columns);
+        const column = a - line * columns;
+        const tile = TILES[a];
         tile.moveTo(column, line);
     }
 }
@@ -176,8 +176,8 @@ export function selectTile(tile) {
     } else {
         // switch their position
         if (SELECTED !== tile) {
-            var selectedColumn = SELECTED.currentColumn;
-            var selectedLine = SELECTED.currentLine;
+            const selectedColumn = SELECTED.currentColumn;
+            const selectedLine = SELECTED.currentLine;
 
             TILES[
                 tile.currentLine * getNumberOfColumns() + tile.currentColumn
@@ -187,13 +187,13 @@ export function selectTile(tile) {
             SELECTED.moveTo(tile.currentColumn, tile.currentLine);
             tile.moveTo(selectedColumn, selectedLine);
 
-            var correct = calculateCorrectTiles();
+            const correct = calculateCorrectTiles();
 
             if (isImageCorrect(correct)) {
                 unSelectSelectedTile();
                 STAGE.update();
 
-                var message = "Correct!";
+                let message = "Correct!";
 
                 if (IMAGES_LEFT.length === 0) {
                     message +=
@@ -204,7 +204,7 @@ export function selectTile(tile) {
                     .text(message)
                     .dialog({
                         modal: true,
-                        close: function (event, ui) {
+                        close: function () {
                             start();
                         },
                         buttons: {
@@ -250,9 +250,9 @@ function isImageCorrect(correct) {
  * Shuffle an array.
  */
 function shuffle(array) {
-    var currentIndex = array.length;
-    var temporaryValue;
-    var randomIndex;
+    let currentIndex = array.length;
+    let temporaryValue;
+    let randomIndex;
 
     // while there remain elements to shuffle
     while (currentIndex !== 0) {
@@ -277,13 +277,6 @@ function getNumberOfColumns() {
 }
 
 /**
- * Get the total number of lines in the grid.
- */
-function getNumberOfLines() {
-    return CURRENT_IMAGE_INFO.lines;
-}
-
-/**
  * Get a tile given the current position.
  */
 function getTile(column, line) {
@@ -295,10 +288,10 @@ function getTile(column, line) {
  */
 export function helpPlayer() {
     // get an invalid placed tile
-    var helpTile = null;
+    let helpTile = null;
 
-    for (var a = 0; a < TILES.length; a++) {
-        var tile = TILES[a];
+    for (let a = 0; a < TILES.length; a++) {
+        const tile = TILES[a];
 
         if (!tile.match()) {
             helpTile = tile;
@@ -321,10 +314,10 @@ export function getCurrentImageId() {
  * Calculate the number of correct tiles (that are placed in the correct position).
  */
 function calculateCorrectTiles() {
-    var correct = 0;
+    let correct = 0;
 
-    for (var a = 0; a < TILES.length; a++) {
-        var tile = TILES[a];
+    for (let a = 0; a < TILES.length; a++) {
+        const tile = TILES[a];
 
         if (tile.match()) {
             correct++;
@@ -340,20 +333,20 @@ function calculateCorrectTiles() {
  * Resize the game to fit in the available window's width/height.
  */
 function resize() {
-    var availableWidth = $(window).outerWidth(true);
-    var availableHeight =
+    const availableWidth = $(window).outerWidth(true);
+    const availableHeight =
         $(window).outerHeight(true) - $("#GameMenu").outerHeight(true);
 
-    var imageInfo = CURRENT_IMAGE_INFO;
-    var imageWidth = imageInfo.tileWidth * imageInfo.columns;
-    var imageHeight = imageInfo.tileHeight * imageInfo.lines;
+    const imageInfo = CURRENT_IMAGE_INFO;
+    const imageWidth = imageInfo.tileWidth * imageInfo.columns;
+    const imageHeight = imageInfo.tileHeight * imageInfo.lines;
 
     // determine which scale to use
     // we'll want to use the same scale value for x and y (to keep the image aspect ratio)
-    var scaleX = availableWidth / imageWidth;
-    var scaleY = availableHeight / imageHeight;
+    const scaleX = availableWidth / imageWidth;
+    const scaleY = availableHeight / imageHeight;
 
-    var scale = scaleX;
+    let scale = scaleX;
     if (scaleY < scaleX) {
         scale = scaleY;
     }
@@ -361,7 +354,7 @@ function resize() {
     CANVAS.width = imageWidth * scale;
     CANVAS.height = imageHeight * scale;
 
-    for (var a = 0; a < TILES.length; a++) {
+    for (let a = 0; a < TILES.length; a++) {
         TILES[a].updateSize(scale);
     }
 }

@@ -1,5 +1,5 @@
-var IMAGE;
-var OVERLAY;
+let IMAGE;
+let OVERLAY;
 
 export function init() {
     IMAGE = document.getElementById("OriginalImage");

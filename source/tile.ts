@@ -1,8 +1,6 @@
 import * as Main from "./main";
 
 export function Tile(imageInfo, parent, trueColumn, trueLine) {
-    var _this = this;
-
     this.trueColumn = trueColumn;
     this.trueLine = trueLine;
     this.currentColumn = trueColumn;
@@ -11,7 +9,7 @@ export function Tile(imageInfo, parent, trueColumn, trueLine) {
     // the tile image
     // image source in the format: images/id/id(column)(line).png
     // where column and line are numbers, for example 'images/mirana/mirana21.png' (second column first line)
-    var image = new createjs.Bitmap(
+    const image = new createjs.Bitmap(
         "images/" +
             imageInfo.id +
             "/" +
@@ -19,18 +17,18 @@ export function Tile(imageInfo, parent, trueColumn, trueLine) {
             ".jpeg"
     );
 
-    image.on("click", function () {
-        Main.selectTile(_this);
+    image.on("click", () => {
+        Main.selectTile(this);
     });
     image.on("mouseover", this.mouseOver, this);
     image.on("mouseout", this.mouseOut, this);
 
     // the selected border
-    var border = new createjs.Shape();
+    const border = new createjs.Shape();
     border.visible = false;
 
     // container
-    var container = new createjs.Container();
+    const container = new createjs.Container();
 
     container.x = trueColumn * imageInfo.tileWidth;
     container.y = trueLine * imageInfo.tileHeight;
@@ -122,11 +120,11 @@ Tile.prototype.mouseOut = function () {
 };
 
 Tile.prototype.setBorderColor = function (color) {
-    var thickness = 3;
-    var halfThickness = thickness / 2;
+    const thickness = 3;
+    const halfThickness = thickness / 2;
 
     this.border.visible = true;
-    var g = this.border.graphics;
+    const g = this.border.graphics;
 
     g.clear();
     g.beginStroke(color);
