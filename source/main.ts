@@ -12,11 +12,11 @@ window.onresize = function () {
     resize();
 };
 
-let CANVAS = null;
-let STAGE = null;
+let CANVAS: HTMLCanvasElement;
+let STAGE: createjs.Stage;
 
-const TILES = []; // has all the tile objects
-let SELECTED = null; // has the currently selected tile object
+const TILES: Tile[] = []; // has all the tile objects
+let SELECTED: Tile | null = null; // has the currently selected tile object
 
 const IMAGES_LEFT: ImageInfo[] = []; // has the images info that haven't being played yet
 const IMAGES_INFO: ImageInfo[] = [
@@ -81,10 +81,10 @@ const IMAGES_INFO: ImageInfo[] = [
         tileHeight: 225,
     },
 ];
-let CURRENT_IMAGE_INFO = null;
+let CURRENT_IMAGE_INFO: ImageInfo | null = null;
 
 function init() {
-    CANVAS = document.querySelector("#MainCanvas");
+    CANVAS = document.querySelector("#MainCanvas")!;
     STAGE = new createjs.Stage(CANVAS);
     STAGE.enableMouseOver(20);
 
@@ -171,7 +171,7 @@ function shuffleTiles() {
 /**
  * Select a tile. If there was a tile previously selected, then we switch their positions.
  */
-export function selectTile(tile) {
+export function selectTile(tile: Tile) {
     if (SELECTED === null) {
         setSelectedTile(tile);
     } else {
@@ -180,10 +180,10 @@ export function selectTile(tile) {
             const selectedColumn = SELECTED.currentColumn;
             const selectedLine = SELECTED.currentLine;
 
-            TILES[
-                tile.currentLine * getNumberOfColumns() + tile.currentColumn
-            ] = SELECTED;
-            TILES[selectedLine * getNumberOfColumns() + selectedColumn] = tile;
+            const columns = getNumberOfColumns();
+
+            TILES[tile.currentLine * columns + tile.currentColumn] = SELECTED;
+            TILES[selectedLine * columns + selectedColumn] = tile;
 
             SELECTED.moveTo(tile.currentColumn, tile.currentLine);
             tile.moveTo(selectedColumn, selectedLine);
@@ -225,7 +225,7 @@ export function selectTile(tile) {
 /**
  * Select a tile.
  */
-function setSelectedTile(tile) {
+function setSelectedTile(tile: Tile) {
     SELECTED = tile;
     SELECTED.select();
 }
@@ -243,7 +243,7 @@ function unSelectSelectedTile() {
 /**
  * Check if the image is correctly positioned (if the puzzle is solved).
  */
-function isImageCorrect(correct) {
+function isImageCorrect(correct: number) {
     return correct === TILES.length;
 }
 
@@ -251,14 +251,16 @@ function isImageCorrect(correct) {
  * Get the total number of columns in the grid.
  */
 function getNumberOfColumns() {
-    return CURRENT_IMAGE_INFO.columns;
+    return CURRENT_IMAGE_INFO?.columns ?? 0;
 }
 
 /**
  * Get a tile given the current position.
  */
-function getTile(column, line) {
-    return TILES[line * getNumberOfColumns() + column];
+function getTile(column: number, line: number) {
+    const columns = getNumberOfColumns();
+
+    return TILES[line * columns + column];
 }
 
 /**
@@ -280,12 +282,12 @@ export function helpPlayer() {
     // highlight the tile and where its supposed to go
     if (helpTile !== null) {
         helpTile.highlight();
-        getTile(helpTile.trueColumn, helpTile.trueLine).highlight();
+        getTile(helpTile.trueColumn, helpTile.trueLine)?.highlight();
     }
 }
 
 export function getCurrentImageId() {
-    return CURRENT_IMAGE_INFO.id;
+    return CURRENT_IMAGE_INFO?.id;
 }
 
 /**
@@ -311,11 +313,15 @@ function calculateCorrectTiles() {
  * Resize the game to fit in the available window's width/height.
  */
 function resize() {
-    const availableWidth = $(window).outerWidth(true);
+    const availableWidth = $(window).outerWidth(true)!;
     const availableHeight =
-        $(window).outerHeight(true) - $("#GameMenu").outerHeight(true);
+        $(window).outerHeight(true)! - $("#GameMenu").outerHeight(true)!;
 
     const imageInfo = CURRENT_IMAGE_INFO;
+    if (!imageInfo) {
+        return;
+    }
+
     const imageWidth = imageInfo.tileWidth * imageInfo.columns;
     const imageHeight = imageInfo.tileHeight * imageInfo.lines;
 
