@@ -1,5 +1,7 @@
+import { getCurrentImageId } from "./images";
 import * as Main from "./main";
 import * as ShowImage from "./show_image";
+import { ImagesInformation } from "./types";
 
 let IMAGES_LEFT_UI: HTMLElement;
 let TILES_CORRECT_UI: HTMLElement;
@@ -28,7 +30,7 @@ export function init() {
  * Open a dialog with the original image, for help solving the puzzle.
  */
 function showOriginalImage() {
-    const id = Main.getCurrentImageId();
+    const id = getCurrentImageId();
 
     if (id) {
         ShowImage.show(id);
@@ -38,9 +40,8 @@ function showOriginalImage() {
 /**
  * Update the game menu UI with the current image and total images available.
  */
-export function updateImagesLeft(totalAvailable: number, totalLeft: number) {
-    IMAGES_LEFT_UI.innerHTML =
-        "Image: " + (totalAvailable - totalLeft) + "/" + totalAvailable;
+export function updateImagesLeft({ total, left }: ImagesInformation) {
+    IMAGES_LEFT_UI.innerHTML = "Image: " + (total - left) + "/" + total;
 }
 
 /**

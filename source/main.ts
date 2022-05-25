@@ -1,8 +1,15 @@
 import { shuffle } from "@drk4/utilities";
 import * as GameMenu from "./game_menu";
+import {
+    clearCurrentImage,
+    getCurrentImageDimensions,
+    getImagesInformation,
+    getNumberOfColumns,
+    noImagesLeft,
+    selectNextImage,
+} from "./images";
 import * as ShowImage from "./show_image";
 import { Tile } from "./tile";
-import { ImageInfo } from "./types";
 
 window.onload = function () {
     init();
@@ -17,71 +24,6 @@ let STAGE: createjs.Stage;
 
 const TILES: Tile[] = []; // has all the tile objects
 let SELECTED: Tile | null = null; // has the currently selected tile object
-
-const IMAGES_LEFT: ImageInfo[] = []; // has the images info that haven't being played yet
-const IMAGES_INFO: ImageInfo[] = [
-    {
-        id: "beta_is_over",
-        columns: 8,
-        lines: 2,
-        tileWidth: 169,
-        tileHeight: 192,
-    },
-    { id: "mirana", columns: 8, lines: 2, tileWidth: 200, tileHeight: 285 },
-    { id: "snow", columns: 8, lines: 2, tileWidth: 179, tileHeight: 359 },
-    { id: "lina", columns: 4, lines: 4, tileWidth: 256, tileHeight: 144 },
-    { id: "treant", columns: 7, lines: 4, tileWidth: 260, tileHeight: 256 },
-    {
-        id: "demoman_merasmus",
-        columns: 5,
-        lines: 5,
-        tileWidth: 320,
-        tileHeight: 338,
-    },
-    {
-        id: "expiration_date",
-        columns: 6,
-        lines: 5,
-        tileWidth: 320,
-        tileHeight: 216,
-    },
-    {
-        id: "gun_mettle",
-        columns: 5,
-        lines: 5,
-        tileWidth: 512,
-        tileHeight: 320,
-    },
-    {
-        id: "pyroland_sunset",
-        columns: 8,
-        lines: 8,
-        tileWidth: 320,
-        tileHeight: 200,
-    },
-    {
-        id: "bounty_hunter",
-        columns: 7,
-        lines: 8,
-        tileWidth: 260,
-        tileHeight: 128,
-    },
-    {
-        id: "shadow_demon",
-        columns: 7,
-        lines: 4,
-        tileWidth: 260,
-        tileHeight: 256,
-    },
-    {
-        id: "timbuk_tuesday",
-        columns: 8,
-        lines: 5,
-        tileWidth: 250,
-        tileHeight: 225,
-    },
-];
-let CURRENT_IMAGE_INFO: ImageInfo | null = null;
 
 function init() {
     CANVAS = document.querySelector("#MainCanvas")!;
@@ -101,19 +43,7 @@ function init() {
 export function start() {
     clear();
 
-    // if all the maps have already been played, then re-add all the images, and start again
-    if (IMAGES_LEFT.length === 0) {
-        for (let a = 0; a < IMAGES_INFO.length; a++) {
-            IMAGES_LEFT.push(IMAGES_INFO[a]);
-        }
-    }
-
-    // select a random image
-    const random = Math.floor(Math.random() * IMAGES_LEFT.length);
-    const imageInfo = IMAGES_LEFT.splice(random, 1)[0];
-
-    CURRENT_IMAGE_INFO = imageInfo;
-
+    const imageInfo = selectNextImage();
     const columns = imageInfo.columns;
     const lines = imageInfo.lines;
 
@@ -131,7 +61,7 @@ export function start() {
     // shuffle the tiles
     shuffleTiles();
 
-    GameMenu.updateImagesLeft(IMAGES_INFO.length, IMAGES_LEFT.length);
+    GameMenu.updateImagesLeft(getImagesInformation());
     calculateCorrectTiles();
     resize();
 }
@@ -141,7 +71,7 @@ export function start() {
  */
 function clear() {
     SELECTED = null;
-    CURRENT_IMAGE_INFO = null;
+    clearCurrentImage();
 
     if (TILES.length > 0) {
         for (let a = 0; a < TILES.length; a++) {
@@ -196,7 +126,7 @@ export function selectTile(tile: Tile) {
 
                 let message = "Correct!";
 
-                if (IMAGES_LEFT.length === 0) {
+                if (noImagesLeft()) {
                     message +=
                         "\nYou've been through all the images.\nRestarting...";
                 }
@@ -248,13 +178,6 @@ function isImageCorrect(correct: number) {
 }
 
 /**
- * Get the total number of columns in the grid.
- */
-function getNumberOfColumns() {
-    return CURRENT_IMAGE_INFO?.columns ?? 0;
-}
-
-/**
  * Get a tile given the current position.
  */
 function getTile(column: number, line: number) {
@@ -286,10 +209,6 @@ export function helpPlayer() {
     }
 }
 
-export function getCurrentImageId() {
-    return CURRENT_IMAGE_INFO?.id;
-}
-
 /**
  * Calculate the number of correct tiles (that are placed in the correct position).
  */
@@ -317,13 +236,11 @@ function resize() {
     const availableHeight =
         $(window).outerHeight(true)! - $("#GameMenu").outerHeight(true)!;
 
-    const imageInfo = CURRENT_IMAGE_INFO;
-    if (!imageInfo) {
+    const imageDimensions = getCurrentImageDimensions();
+    if (!imageDimensions) {
         return;
     }
-
-    const imageWidth = imageInfo.tileWidth * imageInfo.columns;
-    const imageHeight = imageInfo.tileHeight * imageInfo.lines;
+    const { width: imageWidth, height: imageHeight } = imageDimensions;
 
     // determine which scale to use
     // we'll want to use the same scale value for x and y (to keep the image aspect ratio)

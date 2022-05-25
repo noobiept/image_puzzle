@@ -5,3 +5,8 @@ export interface ImageInfo {
     tileWidth: number;
     tileHeight: number;
 }
+
+export interface ImagesInformation {
+    total: number;
+    left: number;
+}
