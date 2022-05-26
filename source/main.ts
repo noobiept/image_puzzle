@@ -16,7 +16,7 @@ window.onload = function () {
     init();
 };
 
-window.onresize = debounce(resize, 50);
+window.onresize = debounce(resize, 100);
 
 let CANVAS: HTMLCanvasElement;
 let STAGE: createjs.Stage;
