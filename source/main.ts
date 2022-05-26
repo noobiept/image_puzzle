@@ -1,4 +1,5 @@
 import { shuffle } from "@drk4/utilities";
+import { debounce } from "lodash-es";
 import * as GameMenu from "./game_menu";
 import {
     clearCurrentImage,
@@ -15,9 +16,7 @@ window.onload = function () {
     init();
 };
 
-window.onresize = function () {
-    resize();
-};
+window.onresize = debounce(resize, 50);
 
 let CANVAS: HTMLCanvasElement;
 let STAGE: createjs.Stage;
