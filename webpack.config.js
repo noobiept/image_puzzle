@@ -28,6 +28,7 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: getOutputPath(),
+        clean: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -37,7 +38,16 @@ module.exports = {
             patterns: [
                 { from: "css", to: "css" },
                 { from: "libraries", to: "libraries" },
-                { from: "images", to: "images" },
+                {
+                    from: "images",
+                    to: "images",
+                    globOptions: {
+                        ignore: [
+                            "**/images/promotion/**",
+                            "**/images/original/**",
+                        ],
+                    },
+                },
             ],
         }),
     ],
