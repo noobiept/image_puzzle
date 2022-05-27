@@ -10,3 +10,8 @@ export interface ImagesInformation {
     total: number;
     left: number;
 }
+
+export interface TilePosition {
+    column: number;
+    line: number;
+}

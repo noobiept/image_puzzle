@@ -12,6 +12,7 @@ import {
 } from "./images";
 import * as ShowImage from "./show_image";
 import { Tile } from "./tile";
+import { TilePosition } from "./types";
 
 window.onload = function () {
     init();
@@ -131,15 +132,17 @@ function selectTile(tile: Tile) {
     } else {
         // switch their position
         if (SELECTED !== tile) {
-            const selectedColumn = SELECTED.currentColumn;
-            const selectedLine = SELECTED.currentLine;
+            const { column: selectedColumn, line: selectedLine } =
+                SELECTED.getCurrentPosition();
+            const { column: currentColumn, line: currentLine } =
+                tile.getCurrentPosition();
 
             const columns = getNumberOfColumns();
 
-            TILES[tile.currentLine * columns + tile.currentColumn] = SELECTED;
+            TILES[currentLine * columns + currentColumn] = SELECTED;
             TILES[selectedLine * columns + selectedColumn] = tile;
 
-            SELECTED.moveTo(tile.currentColumn, tile.currentLine);
+            SELECTED.moveTo(currentColumn, currentLine);
             tile.moveTo(selectedColumn, selectedLine);
 
             const correct = calculateCorrectTiles();
@@ -204,7 +207,7 @@ function isImageCorrect(correct: number) {
 /**
  * Get a tile given the current position.
  */
-function getTile(column: number, line: number) {
+function getTile({ line, column }: TilePosition) {
     const columns = getNumberOfColumns();
 
     return TILES[line * columns + column];
@@ -229,7 +232,7 @@ function helpPlayer() {
     // highlight the tile and where its supposed to go
     if (helpTile !== null) {
         helpTile.highlight();
-        getTile(helpTile.trueColumn, helpTile.trueLine)?.highlight();
+        getTile(helpTile.getTruePosition())?.highlight();
     }
 }
 

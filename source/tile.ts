@@ -9,11 +9,10 @@ export interface TileArgs {
 }
 
 export class Tile {
-    currentColumn: number;
-    currentLine: number;
-    trueColumn: number;
-    trueLine: number;
-
+    private currentColumn: number;
+    private currentLine: number;
+    private trueColumn: number;
+    private trueLine: number;
     private originalWidth: number;
     private originalHeight: number;
     private tileWidth: number;
@@ -77,6 +76,26 @@ export class Tile {
         this.isSelected = false;
 
         parent.addChild(container);
+    }
+
+    /**
+     * @returns The current tile position.
+     */
+    getCurrentPosition() {
+        return {
+            column: this.currentColumn,
+            line: this.currentLine,
+        };
+    }
+
+    /**
+     * @returns The true position of this tile (where its supposed to be to complete the image).
+     */
+    getTruePosition() {
+        return {
+            column: this.trueColumn,
+            line: this.trueLine,
+        };
     }
 
     /**
