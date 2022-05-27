@@ -1,25 +1,28 @@
-import { getCurrentImageId } from "./images";
-import * as Main from "./main";
-import * as ShowImage from "./show_image";
 import { ImagesInformation } from "./types";
 
 let IMAGES_LEFT_UI: HTMLElement;
 let TILES_CORRECT_UI: HTMLElement;
 
+export interface GameMenuInitArgs {
+    onHelp: () => void;
+    onSkip: () => void;
+    onShowOriginal: () => void;
+}
+
 /**
  * Initialize the menu elements.
  */
-export function init() {
+export function init({ onHelp, onSkip, onShowOriginal }: GameMenuInitArgs) {
     const help = document.getElementById("Help")!;
-    help.onclick = Main.helpPlayer;
+    help.onclick = onHelp;
     $(help).button();
 
     const original = document.getElementById("ShowOriginal")!;
-    original.onclick = showOriginalImage;
+    original.onclick = onShowOriginal;
     $(original).button();
 
     const skip = document.getElementById("Skip")!;
-    skip.onclick = Main.start;
+    skip.onclick = onSkip;
     $(skip).button();
 
     IMAGES_LEFT_UI = document.getElementById("ImagesLeft")!;
@@ -27,17 +30,6 @@ export function init() {
 
     const container = document.getElementById("GameMenu")!;
     container.classList.remove("hidden");
-}
-
-/**
- * Open a dialog with the original image, for help solving the puzzle.
- */
-function showOriginalImage() {
-    const id = getCurrentImageId();
-
-    if (id) {
-        ShowImage.show(id);
-    }
 }
 
 /**

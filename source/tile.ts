@@ -1,5 +1,12 @@
-import * as Main from "./main";
 import { ImageInfo } from "./types";
+
+export interface TileArgs {
+    imageInfo: ImageInfo;
+    parent: createjs.Container;
+    trueColumn: number;
+    trueLine: number;
+    onClick: (tile: Tile) => void;
+}
 
 export class Tile {
     currentColumn: number;
@@ -17,12 +24,13 @@ export class Tile {
     private border: createjs.Shape | null;
     private isSelected: boolean;
 
-    constructor(
-        imageInfo: ImageInfo,
-        parent: createjs.Container,
-        trueColumn: number,
-        trueLine: number
-    ) {
+    constructor({
+        imageInfo,
+        parent,
+        trueColumn,
+        trueLine,
+        onClick,
+    }: TileArgs) {
         this.trueColumn = trueColumn;
         this.trueLine = trueLine;
         this.currentColumn = trueColumn;
@@ -40,7 +48,7 @@ export class Tile {
         );
 
         image.on("click", () => {
-            Main.selectTile(this);
+            onClick(this);
         });
         image.on("mouseover", this.mouseOver, this);
         image.on("mouseout", this.mouseOut, this);

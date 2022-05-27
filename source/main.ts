@@ -4,6 +4,7 @@ import * as GameMenu from "./game_menu";
 import {
     clearCurrentImage,
     getCurrentImageDimensions,
+    getCurrentImageId,
     getImagesInformation,
     getNumberOfColumns,
     noImagesLeft,
@@ -34,15 +35,30 @@ function init() {
 
     createjs.Ticker.on("tick", tick);
 
-    GameMenu.init();
+    GameMenu.init({
+        onHelp: helpPlayer,
+        onSkip: start,
+        onShowOriginal: showOriginalImage,
+    });
     ShowImage.init();
     start();
 }
 
 /**
+ * Open a dialog with the original image, for help solving the puzzle.
+ */
+function showOriginalImage() {
+    const id = getCurrentImageId();
+
+    if (id) {
+        ShowImage.show(id);
+    }
+}
+
+/**
  * Start a random image (off the ones that haven't being played yet).
  */
-export function start() {
+function start() {
     clear();
 
     const imageInfo = selectNextImage();
@@ -53,9 +69,15 @@ export function start() {
     const length = columns * lines;
 
     for (let a = 0; a < length; a++) {
-        const line = Math.floor(a / columns);
-        const column = a - line * columns;
-        const tile = new Tile(imageInfo, STAGE, column, line);
+        const trueLine = Math.floor(a / columns);
+        const trueColumn = a - trueLine * columns;
+        const tile = new Tile({
+            imageInfo,
+            parent: STAGE,
+            trueColumn,
+            trueLine,
+            onClick: selectTile,
+        });
 
         TILES.push(tile);
     }
@@ -103,7 +125,7 @@ function shuffleTiles() {
 /**
  * Select a tile. If there was a tile previously selected, then we switch their positions.
  */
-export function selectTile(tile: Tile) {
+function selectTile(tile: Tile) {
     if (SELECTED === null) {
         setSelectedTile(tile);
     } else {
@@ -191,7 +213,7 @@ function getTile(column: number, line: number) {
 /**
  * Highlight a correct move.
  */
-export function helpPlayer() {
+function helpPlayer() {
     // get an invalid placed tile
     let helpTile = null;
 
