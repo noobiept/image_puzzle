@@ -14,6 +14,15 @@ body {
     display: none;
 }
 
+#InitialLoading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 22px;
+}
+
 #OriginalImage {
     position: fixed;
     left: 50%;
@@ -41,4 +50,10 @@ body {
 #GameMenu {
     margin: 0;
     padding: 25px 0;
+}
+
+@media only screen and (max-width: 800px) {
+    #GameMenu {
+        font-size: 12px;
+    }
 }

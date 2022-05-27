@@ -14,6 +14,9 @@ import { Tile } from "./tile";
 
 window.onload = function () {
     init();
+
+    const loading = document.getElementById("InitialLoading")!;
+    loading.remove();
 };
 
 window.onresize = debounce(resize, 100);

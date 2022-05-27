@@ -24,6 +24,9 @@ export function init() {
 
     IMAGES_LEFT_UI = document.getElementById("ImagesLeft")!;
     TILES_CORRECT_UI = document.getElementById("TilesCorrect")!;
+
+    const container = document.getElementById("GameMenu")!;
+    container.classList.remove("hidden");
 }
 
 /**

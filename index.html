@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, minimum-scale=1" />
         <meta name="description" content="Image puzzle game." />
         <title>Image Puzzle</title>
 
@@ -26,17 +26,17 @@
         ></script>
     </head>
     <body>
-        <canvas id="MainCanvas"></canvas>
-
-        <ul id="GameMenu">
+        <ul id="GameMenu" class="hidden">
             <li id="Help" class="button">Help</li>
             <li id="ShowOriginal" class="button">Show Original</li>
             <li id="Skip" class="button">Skip</li>
             <li id="ImagesLeft" class="value"></li>
             <li id="TilesCorrect" class="value"></li>
         </ul>
+        <canvas id="MainCanvas"></canvas>
 
         <div id="WinMessage"></div>
+        <div id="InitialLoading">Loading...</div>
 
         <div id="Overlay" class="hidden"></div>
         <img id="OriginalImage" class="hidden" />
