@@ -259,9 +259,11 @@ function calculateCorrectTiles() {
  * Resize the game to fit in the available window's width/height.
  */
 function resize() {
-    const availableWidth = $(window).outerWidth(true)!;
+    const menu = document.getElementById("GameMenu")!;
+    const margin = 20;
+    const availableWidth = document.body.clientWidth - margin;
     const availableHeight =
-        $(window).outerHeight(true)! - $("#GameMenu").outerHeight(true)!;
+        document.body.clientHeight - menu.clientHeight - margin;
 
     const imageDimensions = getCurrentImageDimensions();
     if (!imageDimensions) {
