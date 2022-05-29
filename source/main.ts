@@ -28,6 +28,7 @@ let STAGE: createjs.Stage;
 
 const TILES: Tile[] = []; // has all the tile objects
 let SELECTED: Tile | null = null; // has the currently selected tile object
+let HIGHLIGHTED_TILES: Tile[] = []; // list of all the tiles that are highlighted (will be either empty or have 2 tiles)
 
 function init() {
     CANVAS = document.querySelector("#MainCanvas")!;
@@ -145,6 +146,12 @@ function selectTile(tile: Tile) {
             SELECTED.moveTo(currentColumn, currentLine);
             tile.moveTo(selectedColumn, selectedLine);
 
+            // un-selected all selected and highlighted tiles
+            clearAllHighlightedTiles();
+
+            SELECTED.resetState();
+            tile.resetState();
+
             const correct = calculateCorrectTiles();
 
             if (isImageCorrect(correct)) {
@@ -231,9 +238,21 @@ function helpPlayer() {
 
     // highlight the tile and where its supposed to go
     if (helpTile !== null) {
-        helpTile.highlight();
-        getTile(helpTile.getTruePosition())?.highlight();
+        const match = getTile(helpTile.getTruePosition());
+        if (match) {
+            highlightTiles(helpTile, match);
+        }
     }
+}
+
+function highlightTiles(...tiles: Tile[]) {
+    tiles.forEach((tile) => tile.setHighlight(true));
+    HIGHLIGHTED_TILES = tiles;
+}
+
+function clearAllHighlightedTiles() {
+    HIGHLIGHTED_TILES.forEach((tile) => tile.setHighlight(false));
+    HIGHLIGHTED_TILES.length = 0;
 }
 
 /**

@@ -21,7 +21,9 @@ export class Tile {
     private image: createjs.Bitmap;
     private parent: createjs.Container | null;
     private border: createjs.Shape | null;
-    private isSelected: boolean;
+    private isSelected = false;
+    private isHighlighted = false;
+    private isMouseOver = false;
 
     constructor({
         imageInfo,
@@ -54,7 +56,6 @@ export class Tile {
 
         // the selected border
         const border = new createjs.Shape();
-        border.visible = false;
 
         // container
         const container = new createjs.Container();
@@ -73,9 +74,9 @@ export class Tile {
         this.image = image;
         this.parent = parent;
         this.border = border;
-        this.isSelected = false;
 
         parent.addChild(container);
+        this.updateBorderColor();
     }
 
     /**
@@ -129,51 +130,97 @@ export class Tile {
      * Select this tile.
      */
     select() {
-        this.setBorderColor("red");
         this.isSelected = true;
+        this.updateBorderColor();
     }
 
     /**
      * Un-select this tile.
      */
     unSelect() {
-        if (this.border) {
-            this.border.visible = false;
-        }
         this.isSelected = false;
+        this.updateBorderColor();
     }
 
     /**
-     * Highlight a tile (for example when helping the player solving the puzzle).
+     * Change the highlight value a tile (highlighting is used for example when helping the player solving the puzzle).
      */
-    highlight() {
-        this.setBorderColor("yellow");
+    setHighlight(value: boolean) {
+        this.isHighlighted = value;
+        this.updateBorderColor();
+    }
+
+    /**
+     * Update the border color based on the current state (selected/highlighted/mouseOver).
+     */
+    updateBorderColor() {
+        let color;
+
+        if (this.isHighlighted) {
+            if (this.isSelected) {
+                if (this.isMouseOver) {
+                    color = "darkred";
+                } else {
+                    color = "red";
+                }
+            } else {
+                if (this.isMouseOver) {
+                    color = "#999900";
+                } else {
+                    color = "yellow";
+                }
+            }
+        } else {
+            if (this.isMouseOver) {
+                if (this.isSelected) {
+                    color = "darkred";
+                } else {
+                    color = "blue";
+                }
+            } else {
+                if (this.isSelected) {
+                    color = "red";
+                }
+            }
+        }
+
+        this.setBorderColor(color);
     }
 
     /**
      * Show an effect when the mouse is over this element.
      */
     mouseOver() {
-        if (this.isSelected) {
-            this.setBorderColor("purple");
-        } else {
-            this.setBorderColor("blue");
-        }
+        this.isMouseOver = true;
+        this.updateBorderColor();
     }
 
     /**
      * Remove the mouse over effect.
      */
     mouseOut() {
-        if (this.isSelected) {
-            this.select();
-        } else {
-            this.unSelect();
-        }
+        this.isMouseOver = false;
+        this.updateBorderColor();
     }
 
-    setBorderColor(color: string) {
+    resetState() {
+        this.isHighlighted = false;
+        this.isSelected = false;
+        this.isMouseOver = false;
+        this.updateBorderColor();
+    }
+
+    /**
+     * Change the border color.
+     * If `color` is undefined then the border is hidden.
+     */
+    private setBorderColor(color?: string) {
         if (!this.border) {
+            return;
+        }
+        // hide the border
+        if (!color) {
+            this.border.visible = false;
             return;
         }
 
