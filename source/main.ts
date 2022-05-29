@@ -227,8 +227,17 @@ function helpPlayer() {
     // get an invalid placed tile
     let helpTile = null;
 
+    // create a random list of indexes
+    const indexes = [];
     for (let a = 0; a < TILES.length; a++) {
-        const tile = TILES[a];
+        indexes.push(a);
+    }
+    shuffle(indexes);
+
+    // loop randomly the tiles array
+    for (let a = 0; a < indexes.length; a++) {
+        const index = indexes[a];
+        const tile = TILES[index];
 
         if (!tile.match()) {
             helpTile = tile;
